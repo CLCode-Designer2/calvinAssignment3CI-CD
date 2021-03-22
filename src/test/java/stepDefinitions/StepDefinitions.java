@@ -11,7 +11,10 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.concurrent.TimeUnit;
 
@@ -57,9 +60,12 @@ public class StepDefinitions {
 
     @And ("I press the sign up button")
     public void iPressTheSignUpButton () throws InterruptedException {
-        Thread.sleep (2000);
-        WebElement signUp = driver.findElement (By.cssSelector ("button[id = 'create-account']"));
-        signUp.submit ();
+
+        // WebElement signUp = driver.findElement (By.cssSelector ("button[id = 'create-account']"));
+        // signUp.submit ();
+
+        click (driver, By.cssSelector ("button[id = 'create-account']"));
+
         System.out.println ("Click");
 
     }
@@ -74,6 +80,12 @@ public class StepDefinitions {
         System.out.println ("Confirm & close app");
         driver.close ();
 
+    }
+
+    public void click (WebDriver driver, By by) {
+
+        new WebDriverWait (driver, 10).until (ExpectedConditions.elementToBeClickable (by));
+        driver.findElement (by).click ();
     }
 
 }
