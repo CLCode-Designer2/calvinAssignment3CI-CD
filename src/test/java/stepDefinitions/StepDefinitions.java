@@ -43,11 +43,11 @@ public class StepDefinitions {
     public void iEnterEmailAndUsernameAndPassword (String email, String username, String password)
             throws InterruptedException {
         Thread.sleep (2000);
-        WebElement Email = driver.findElement (By.id ("email"));
+        WebElement Email = driver.findElement (By.cssSelector ("input[id = 'email']"));
         Email.sendKeys (email);
-        WebElement Username = driver.findElement (By.id ("new_username"));
+        WebElement Username = driver.findElement (By.cssSelector ("input[id = 'new_username']"));
         Username.sendKeys (username);
-        WebElement Password = driver.findElement (By.id ("new_password"));
+        WebElement Password = driver.findElement (By.cssSelector ("input[id = 'new_password']"));
         Password.sendKeys (password);
         System.out.println ("Email: " +email);
         System.out.println ("Username: " +username);
@@ -58,7 +58,7 @@ public class StepDefinitions {
     @And ("I press the sign up button")
     public void iPressTheSignUpButton () throws InterruptedException {
         Thread.sleep (2000);
-        WebElement signUp = driver.findElement (By.xpath ("//*[@id=\"create-account\"]"));
+        WebElement signUp = driver.findElement (By.cssSelector ("button[id = 'create-account']"));
         signUp.submit ();
         System.out.println ("Click");
 
@@ -68,7 +68,7 @@ public class StepDefinitions {
     public void iVerifyTheSignUpStatus () throws InterruptedException {
         Thread.sleep (2000);
         //driver.get("https://login.mailchimp.com/signup/success/");
-        WebElement h1 = driver.findElement (By.xpath ("//*[@id=\"signup-content\"]/div/div/div/span/div/p[2]/a"));
+        WebElement h1 = driver.findElement (By.cssSelector ("div[id = 'signup-content']"));
         System.out.println ("Status: " );
         assertEquals ("Re-enter your email and try again", h1.getText ());
         System.out.println ("Confirm & close app");

@@ -8,6 +8,7 @@ Feature: Test account signup function
     And I press the sign up button
     Then I verify the sign up status
 
+
     Examples:
     |  email  | username  |  password  |
-    | alcalgone@yahoo.com | Blickson | Kissmy8grits$ |
+    | goodlove@bringit.com | Octopussy | Kissmy8grits$ |
