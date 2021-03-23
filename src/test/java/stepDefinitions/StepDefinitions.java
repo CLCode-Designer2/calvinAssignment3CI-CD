@@ -25,33 +25,34 @@ public class StepDefinitions {
 
     private WebDriver driver;
 
-    @Given("I have the browser open")
-    public void iHaveTheBrowserOpen () throws InterruptedException {
-        System.setProperty ("webdriver.chrome.driver", "chromedriver");
-        driver = new ChromeDriver (); //Start Chrome
-        //driver.manage().timeouts().implicitlyWait (60, TimeUnit.SECONDS);
-        //driver.manage().timeouts().pageLoadTimeout (60, TimeUnit.SECONDS);
-        driver.manage().window().maximize();
-        Thread.sleep (2000);
-
+    @Given("I have used {string} as a browser")
+    public void iHaveUsedAsABrowser(String browser) {
+        DriveCreator creator = new DriveCreator();
+        driver = creator.createBrowser(browser);
     }
 
     @And ("I have navigated to mailchimp")
     public void iHaveNavigatedToMailchimp() {
         driver.get("https://login.mailchimp.com/signup/"); //Navigate web service
+        driver.manage().window().maximize();
+        driver.manage().timeouts ().pageLoadTimeout (15, TimeUnit.SECONDS); //Max (15) for page to load
+        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS); //Max (30) seconds for all elements
         System.out.println ("Web service");
     }
 
     @When("^I enter \"([^\"]*)\" and \"([^\"]*)\" and \"([^\"]*)\"$")
     public void iEnterEmailAndUsernameAndPassword (String email, String username, String password)
             throws InterruptedException {
-        Thread.sleep (2000);
+
         WebElement Email = driver.findElement (By.cssSelector ("input[id = 'email']"));
-        Email.sendKeys (email);
+        sendKeys (driver, Email, 3, email);
+
         WebElement Username = driver.findElement (By.cssSelector ("input[id = 'new_username']"));
-        Username.sendKeys (username);
+        sendKeys (driver, Username, 3, username);
+
         WebElement Password = driver.findElement (By.cssSelector ("input[id = 'new_password']"));
-        Password.sendKeys (password);
+        sendKeys (driver, Password, 3, password);
+
         System.out.println ("Email: " +email);
         System.out.println ("Username: " +username);
         System.out.println ("Password: " +password);
@@ -60,23 +61,20 @@ public class StepDefinitions {
 
     @And ("I press the sign up button")
     public void iPressTheSignUpButton () throws InterruptedException {
-
         // WebElement signUp = driver.findElement (By.cssSelector ("button[id = 'create-account']"));
         // signUp.submit ();
 
         click (driver, By.cssSelector ("button[id = 'create-account']"));
-
         System.out.println ("Click");
 
     }
 
     @Then("I verify the sign up status")
     public void iVerifyTheSignUpStatus () throws InterruptedException {
-        Thread.sleep (2000);
-        //driver.get("https://login.mailchimp.com/signup/success/");
-        WebElement h1 = driver.findElement (By.cssSelector ("div[id = 'signup-content']"));
+
+        WebElement h1 = driver.findElement (By.cssSelector ("h1[class = '!margin-bottom--lv3 no-transform center-on-medium']"));
         System.out.println ("Status: " );
-        assertEquals ("Re-enter your email and try again", h1.getText ());
+        assertEquals ("Check your email", h1.getText ());
         System.out.println ("Confirm & close app");
         driver.close ();
 
@@ -85,7 +83,14 @@ public class StepDefinitions {
     public void click (WebDriver driver, By by) {
 
         new WebDriverWait (driver, 10).until (ExpectedConditions.elementToBeClickable (by));
-        driver.findElement (by).click ();
+        driver.findElement (by).submit ();
     }
+
+    public void sendKeys (WebDriver driver, WebElement element, int timeout, String value) {
+
+        new WebDriverWait (driver, 10).until (ExpectedConditions.visibilityOf (element));
+        element.sendKeys (value);
+    }
+
 
 }
