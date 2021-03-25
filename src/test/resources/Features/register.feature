@@ -11,4 +11,4 @@ Feature: Test account signup function
 
     Examples:
     | browser |  email  | username  |  password  |
-    | chrome  |goodgodlovin@bringit.com | Octopussy6 | Kissmy8grits$ |
+    | chrome  |goodgodluv@bringit.com | G | Kissmy8grits$ |

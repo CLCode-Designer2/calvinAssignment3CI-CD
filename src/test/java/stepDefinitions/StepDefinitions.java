@@ -16,6 +16,8 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.util.Arrays;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.assertEquals;
@@ -24,6 +26,7 @@ import static org.junit.Assert.assertEquals;
 public class StepDefinitions {
 
     private WebDriver driver;
+    private int len = 10;
 
     @Given("I have used {string} as a browser")
     public void iHaveUsedAsABrowser(String browser) {
@@ -48,7 +51,7 @@ public class StepDefinitions {
         sendKeys (driver, Email, 3, email);
 
         WebElement Username = driver.findElement (By.cssSelector ("input[id = 'new_username']"));
-        sendKeys (driver, Username, 3, username);
+        sendKeys (driver, Username, 3, new StringBuilder ().append (username).append (UserName (len)).toString ());
 
         WebElement Password = driver.findElement (By.cssSelector ("input[id = 'new_password']"));
         sendKeys (driver, Password, 3, password);
@@ -92,5 +95,27 @@ public class StepDefinitions {
         element.sendKeys (value);
     }
 
+    static char[] UserName(int len)
+    {
+        // Creating a string variable for the random characters
+
+        String uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        String lowercase = "abcdefghijklmnopqrstuvwxyz";
+        String numbers = "0123456789";
+        String values = uppercase + lowercase + numbers;
+
+        // Using random method
+        Random rndm_method = new Random();
+        // Creating a char array
+        char[] new_username = new char[len];
+
+        for (int i = 1; i < len; i++)
+        {
+            // Use of charAt() method : to get character value
+            // Use of nextInt() method : to transverse the array as int
+            new_username[i] = values.charAt(rndm_method.nextInt(values.length()));
+        }
+        return new_username;
+    }
 
 }
