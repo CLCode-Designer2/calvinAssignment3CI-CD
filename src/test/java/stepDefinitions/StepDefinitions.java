@@ -15,16 +15,12 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
 import java.util.Arrays;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
-
 import static org.junit.Assert.assertEquals;
 
-
 public class StepDefinitions {
-
     private WebDriver driver;
     private int len = 10;
 
@@ -64,8 +60,6 @@ public class StepDefinitions {
 
     @And ("I press the sign up button")
     public void iPressTheSignUpButton () throws InterruptedException {
-        // WebElement signUp = driver.findElement (By.cssSelector ("button[id = 'create-account']"));
-        // signUp.submit ();
 
         click (driver, By.cssSelector ("button[id = 'create-account']"));
         System.out.println ("Click");
@@ -74,14 +68,36 @@ public class StepDefinitions {
 
     @Then("I verify the sign up status")
     public void iVerifyTheSignUpStatus () throws InterruptedException {
+        Thread.sleep (3000);
+        System.out.println ("Begin Test-> " );
+        WebElement eMessage = driver.findElement (By.cssSelector ("span[class = 'invalid-error']"));
 
-        WebElement h1 = driver.findElement (By.cssSelector ("h1[class = '!margin-bottom--lv3 no-transform center-on-medium']"));
-        System.out.println ("Status: " );
-        assertEquals ("Check your email", h1.getText ());
-        System.out.println ("Confirm & close app");
+        if (eMessage.getText ().equalsIgnoreCase ("Please enter a value")) {
+            assertEquals("Please enter a value", eMessage.getText());
+            System.out.println("Blank email");
+        }
+        else if (eMessage.getText ().equalsIgnoreCase ("Another user with this username already exists. Maybe it's your evil twin. Spooky.")) {
+            assertEquals("Another user with this username already exists. Maybe it's your evil twin. Spooky.", eMessage.getText());
+            System.out.println("User already exist");
+        }
+        else if (eMessage.getText ().equalsIgnoreCase ("Enter a value less than 100 characters long")) {
+            assertEquals("Enter a value less than 100 characters long",eMessage.getText());
+            System.out.println("User name over 100 characters long");
+        }
+        else {
+            System.out.println("Your password is secure and you're all set!");
+        }
+        System.out.println ("<-End Test");
         driver.close ();
-
     }
+    @Then("I verify the sign up success")
+    public void iVerifyTheSignUpSuccess() throws InterruptedException {
+        Thread.sleep (3000);
+        WebElement h1 = driver.findElement (By.cssSelector ("h1[class = '!margin-bottom--lv3 no-transform center-on-medium']"));
+        assertEquals ("Check your email", h1.getText ());
+        System.out.println ("Successful sign up!");
+    }
+
 
     public void click (WebDriver driver, By by) {
 
@@ -109,7 +125,7 @@ public class StepDefinitions {
         // Creating a char array
         char[] new_username = new char[len];
 
-        for (int i = 1; i < len; i++)
+        for (int i = 0; i < len; i++)
         {
             // Use of charAt() method : to get character value
             // Use of nextInt() method : to transverse the array as int
