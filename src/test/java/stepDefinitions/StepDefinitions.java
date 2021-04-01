@@ -22,7 +22,7 @@ import static org.junit.Assert.assertEquals;
 
 public class StepDefinitions {
     private WebDriver driver;
-    private int len = 10;
+    private int len = 0;
 
     @Given("I have used {string} as a browser")
     public void iHaveUsedAsABrowser(String browser) {
@@ -66,38 +66,39 @@ public class StepDefinitions {
 
     }
 
-    @Then("I verify the sign up status")
-    public void iVerifyTheSignUpStatus () throws InterruptedException {
-        Thread.sleep (3000);
+    @Then("I verify the sign up {string}")
+    public void iVerifyTheSignUpStatus (String status) throws InterruptedException {
+        Thread.sleep (4000);
         System.out.println ("Begin Test-> " );
-        WebElement eMessage = driver.findElement (By.cssSelector ("span[class = 'invalid-error']"));
 
-        if (eMessage.getText ().equalsIgnoreCase ("Please enter a value")) {
+        boolean flag = false;
+        if (status.equalsIgnoreCase ("BLANK")) {
+            WebElement eMessage = driver.findElement (By.cssSelector ("span[class = 'invalid-error']"));
+            flag = true;
             assertEquals("Please enter a value", eMessage.getText());
             System.out.println("Blank email");
         }
-        else if (eMessage.getText ().equalsIgnoreCase ("Another user with this username already exists. Maybe it's your evil twin. Spooky.")) {
+        else if (status.equalsIgnoreCase ("USED")) {
+            flag = true;
+            WebElement eMessage = driver.findElement (By.cssSelector ("span[class = 'invalid-error']"));
             assertEquals("Another user with this username already exists. Maybe it's your evil twin. Spooky.", eMessage.getText());
             System.out.println("User already exist");
         }
-        else if (eMessage.getText ().equalsIgnoreCase ("Enter a value less than 100 characters long")) {
+        else if (status.equalsIgnoreCase ("LONG")) {
+            flag = true;
+            WebElement eMessage = driver.findElement (By.cssSelector ("span[class = 'invalid-error']"));
             assertEquals("Enter a value less than 100 characters long",eMessage.getText());
             System.out.println("User name over 100 characters long");
         }
-        else {
+        else if (status.equalsIgnoreCase ("SUCCESS")){
+            flag = true;
+            WebElement h1 = driver.findElement (By.cssSelector ("h1[class = '!margin-bottom--lv3 no-transform center-on-medium']"));
+            assertEquals ("Check your email", h1.getText ());
             System.out.println("Your password is secure and you're all set!");
         }
         System.out.println ("<-End Test");
         driver.close ();
     }
-    @Then("I verify the sign up success")
-    public void iVerifyTheSignUpSuccess() throws InterruptedException {
-        Thread.sleep (3000);
-        WebElement h1 = driver.findElement (By.cssSelector ("h1[class = '!margin-bottom--lv3 no-transform center-on-medium']"));
-        assertEquals ("Check your email", h1.getText ());
-        System.out.println ("Successful sign up!");
-    }
-
 
     public void click (WebDriver driver, By by) {
 

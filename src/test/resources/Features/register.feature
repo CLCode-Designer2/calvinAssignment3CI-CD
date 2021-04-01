@@ -6,9 +6,13 @@ Feature: Test account signup function
     And I have navigated to mailchimp
     When I enter "<email>" and "<username>" and "<password>"
     And I press the sign up button
-    Then I verify the sign up status
+    Then I verify the sign up "<status>"
+
 
 
     Examples:
-    | browser |  email  | username  |  password  |
-    | chrome  |goodgodluv@bringit.com | G | Kissmy8grits$ |
+    | browser |  email  |  username  |  password  | status |
+    | chrome  | alcalgone@yahoo.com | Blickson | Kissmy8grits$ | USED |
+    | chrome  | | Glad3seeU | Kissmy8grits$ | BLANK                   |
+    | chrome  | goodluv@smile.com | awu456yhuji1234567890qwertyuiopasdfghjklzxcvbnm1234567890qwertyuiopasdfghjklzxcvbnm1234567890qwertyuiop | Kissmy8grits$ | LONG |
+    | chrome  | goodluv@smile.com | Shithappens10U | Kissmy8grits$ | SUCCESS                                                                                        |
