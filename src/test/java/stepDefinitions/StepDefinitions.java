@@ -45,9 +45,27 @@ public class StepDefinitions {
 
         WebElement Email = driver.findElement (By.cssSelector ("input[id = 'email']"));
         sendKeys (driver, Email, 3, email);
+        if (email.equalsIgnoreCase("a")) {
+            sendKeys (driver, Email, 3, "lcalgone@yahoo.com");
+        } else if (email.equalsIgnoreCase("t")) {
+            Random idGenerator = new Random();
+            int randomInt = idGenerator.nextInt(1000);
+            sendKeys(driver, Email, 3,"ester" + randomInt +"@yahoo.com");
+        } else {
+            sendKeys (driver, Email, 3, " ");
+        }
 
         WebElement Username = driver.findElement (By.cssSelector ("input[id = 'new_username']"));
-        sendKeys (driver, Username, 3, new StringBuilder ().append (username).append (UserName (len)).toString ());
+        if (username.equalsIgnoreCase ("OVER")) {
+            username = new StringBuilder ().append (username).append (UserName (101)).toString ();
+            sendKeys (driver, Username, 3, username);
+        } else if (username.equalsIgnoreCase ("REPEAT")) {
+            username = "Blickson";
+            sendKeys (driver, Username, 3, username);
+        } else {
+            username = new StringBuilder ().append (username).append (UserName (10)).toString ();
+            sendKeys (driver, Username, 3, username);
+        }
 
         WebElement Password = driver.findElement (By.cssSelector ("input[id = 'new_password']"));
         sendKeys (driver, Password, 3, password);

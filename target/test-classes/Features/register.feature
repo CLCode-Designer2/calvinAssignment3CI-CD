@@ -11,8 +11,8 @@ Feature: Test account signup function
 
 
     Examples:
-    | browser |  email  | username  |  password  | status |
-    | chrome  | alcalgone@yahoo.com | Blickson | Kissmy8grits$ | USED |
-    | chrome  | | Glad3seeU | Kissmy8grits$ | BLANK                   |
-    | chrome  | goodluv@smile.com | awu456yhuji1234567890qwertyuiopasdfghjklzxcvbnm1234567890qwertyuiopasdfghjklzxcvbnm1234567890qwertyuiop | Kissmy8grits$ | LONG |
-    | chrome  | goodluv@smile.com | Shithappens10U | Kissmy8grits$ | SUCCESS                                                                                        |
+    | browser |  email  |  username  |  password  | status |
+    | chrome  | a | REPEAT | Kissmy8grits$ | USED |
+    | chrome  |  | G | Kissmy8grits$ | BLANK |
+    | chrome  | t | OVER | Kissmy8grits$ | LONG |
+    | chrome  | t | S | Kissmy8grits$ | SUCCESS |
